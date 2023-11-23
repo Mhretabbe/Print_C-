@@ -11,14 +11,7 @@ namespace LabelPrint
 {
     public partial class preview : Form
     {
-        
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Update.Visible = false;
-        }
-
-        
+      
         private void button2_Click(object sender, EventArgs e)
         {
             updatedSo.Text = So.Text;
@@ -50,26 +43,7 @@ namespace LabelPrint
             
            
 
-            // set the bag number
-            if(Convert.ToString(bag).Length<2)
-            {
-                baglabel = "Bag # 000" + bag.ToString();
-            }
-            else if(Convert.ToString(bag).Length==2)
-                    {
-                baglabel = "Bag # 00" + bag.ToString();
-            }
-            else if(Convert.ToString(bag).Length == 3)
-                    {
-                baglabel = "Bag # 0" + bag;
-            }
-
-            else
-            {
-                baglabel = "Bag # "+ bag;
-            }
-
-            // set the bag number ends
+           
             while (i<copies)
             {
                 // reverse the label
