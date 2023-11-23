@@ -12,16 +12,64 @@ namespace LabelPrint
     public partial class preview : Form
     {
       
-        private void button2_Click(object sender, EventArgs e)
-        {
-            updatedSo.Text = So.Text;
-            updatepartdes.Text = PartDescription.Text;
-            Update.Visible = true;
-            
-        }
+        
 
         
-        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
+      // user clicked print button
+
+ private void button1_Click(object sender, EventArgs e)
+        {
+                      
+            printpanel(this.panelprint);
+
+        }
+
+        private void printpanel(Panel pn1)
+        {
+            PrinterSettings ps = new PrinterSettings();
+            getprintarea(pn1);
+
+            PrintDialog printDlg = new PrintDialog();
+            PrintDocument printDoc = printDocument1;
+            printDoc.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
+            printDoc.DocumentName = "Print Document";
+
+            
+           
+
+            if (printDlg.ShowDialog() == DialogResult.OK)
+            {
+
+                printDoc.DefaultPageSettings.PaperSize = printDlg.PrinterSettings.DefaultPageSettings.PaperSize;
+                printDoc.DefaultPageSettings.Landscape = printDlg.PrinterSettings.DefaultPageSettings.Landscape;
+                printDoc.PrinterSettings.PrinterName = printDlg.PrinterSettings.PrinterName;
+      
+
+                //printDoc.DefaultPageSettings.PaperSize = new System.Drawing.Printing.PaperSize("label", panelprint.Width, panelprint.Height);
+                printDoc.PrinterSettings.Copies = printDlg.PrinterSettings.Copies;
+                printDoc.Print();
+                Endprint endprint = new Endprint();
+                endprint.tagnum = bag.ToString() + " Tags";
+               
+                this.Close();
+            }
+
+
+        }
+
+        private Bitmap memoimg;
+        private Bitmap memoimg2;
+        
+        private void getprintarea(Panel pn1)
+        {
+            
+            memoimg = new Bitmap(pn1.Width,pn1.Height);
+            memoimg2 = new Bitmap(certificate2.Width*10,certificate2.Height*10);
+            pn1.DrawToBitmap(memoimg, new Rectangle(0, 0, pn1.Width, pn1.Height));
+            certificate2.DrawToBitmap(memoimg2, new Rectangle(0, 0, certificate2.Width, certificate2.Height));
+        }
+
+  private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
             
             SolidBrush brush = new SolidBrush(Color.Black);
@@ -83,57 +131,6 @@ namespace LabelPrint
                             
         }
 
- private void button1_Click(object sender, EventArgs e)
-        {
-                      
-            printpanel(this.panelprint);
-
-        }
-
-        private void printpanel(Panel pn1)
-        {
-            PrinterSettings ps = new PrinterSettings();
-            getprintarea(pn1);
-
-            PrintDialog printDlg = new PrintDialog();
-            PrintDocument printDoc = printDocument1;
-            printDoc.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
-            printDoc.DocumentName = "Print Document";
-
-            
-           
-
-            if (printDlg.ShowDialog() == DialogResult.OK)
-            {
-
-                printDoc.DefaultPageSettings.PaperSize = printDlg.PrinterSettings.DefaultPageSettings.PaperSize;
-                printDoc.DefaultPageSettings.Landscape = printDlg.PrinterSettings.DefaultPageSettings.Landscape;
-                printDoc.PrinterSettings.PrinterName = printDlg.PrinterSettings.PrinterName;
-      
-
-                //printDoc.DefaultPageSettings.PaperSize = new System.Drawing.Printing.PaperSize("label", panelprint.Width, panelprint.Height);
-                printDoc.PrinterSettings.Copies = printDlg.PrinterSettings.Copies;
-                printDoc.Print();
-                Endprint endprint = new Endprint();
-                endprint.tagnum = bag.ToString() + " Tags";
-               
-                this.Close();
-            }
-
-
-        }
-
-        private Bitmap memoimg;
-        private Bitmap memoimg2;
-        
-        private void getprintarea(Panel pn1)
-        {
-            
-            memoimg = new Bitmap(pn1.Width,pn1.Height);
-            memoimg2 = new Bitmap(certificate2.Width*10,certificate2.Height*10);
-            pn1.DrawToBitmap(memoimg, new Rectangle(0, 0, pn1.Width, pn1.Height));
-            certificate2.DrawToBitmap(memoimg2, new Rectangle(0, 0, certificate2.Width, certificate2.Height));
-        }
        
 
      
